@@ -7,8 +7,8 @@ backend:
   repo: marylou90/antonellino # Sostituisci con il tuo Owner/Repo
   branch: main # Il tuo ramo principale
   client_id: "Ov23lioVNFpGxkJKWrfl"
-  #base_url: https://github.com 
-  #auth_endpoint: login/oauth/authorize
+  base_url: https://github.com 
+  auth_endpoint: login/oauth/authorize
 
 media_folder: "assets/uploads" # Dove verranno salvate le immagini nel tuo repository (relativo alla root del progetto)
 public_folder: "/assets/uploads" # Come verranno referenziate le immagini nel codice HTML (relativo alla root del sito)
