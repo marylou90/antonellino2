@@ -33,23 +33,37 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # 1. Setup Ruby (SOLO CONFIGURAZIONE)
       - name: Setup Ruby
-        # https://github.com/ruby/setup-ruby/releases/tag/v1.207.0
         uses: ruby/setup-ruby@4a9ddd6f338a97768b8006bf671dfbad383215f4
         with:
-          ruby-version: '3.1' # Not needed with a .ruby-version file
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-          cache-version: 0 # Increment this number if you need to re-download cached gems
+          ruby-version: '3.1'
+          # CRUCIALE: Disabilita il 'bundle install' automatico (che falliva)
+          # Lo faremo manualmente dopo aver aggiornato il Gemfile.lock
+          bundler-cache: false 
+          cache-version: 0
+
+      # 2. RISOLUZIONE DEL PROBLEMA DI PIATTAFORMA
       - name: Aggiungi Piattaforma Linux al Gemfile.lock
+        # Questo comando modifica il Gemfile.lock in modo da supportare la piattaforma x86_64-linux
         run: bundle lock --add-platform x86_64-linux
+      
+      # 3. ESEGUI L'INSTALLAZIONE MANUALE CON CACHING (per ripristinare o installare)
+      - name: Installazione e Caching delle Gemme (Bundle Install) 📦
+        # Usiamo l'azione 'bundler-cache' in uno step separato per gestire installazione e cache
+        uses: ruby/setup-ruby/bundler-cache@v1
+        
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
+
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v3
