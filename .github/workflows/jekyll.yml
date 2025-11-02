@@ -36,19 +36,48 @@ jobs:
 
       # 1. Setup Ruby (SOLO CONFIGURAZIONE)
       - name: Setup Ruby
-        # Usa la stessa versione hash che avevi prima per coerenza
         uses: ruby/setup-ruby@4a9ddd6f338a97768b8006bf671dfbad383215f4 
         with:
           ruby-version: '3.1'
-          # CRUCIALE: Disabilita il 'bundle install' automatico per risolvere il problema di sequenza
+          # Disabilita il 'bundle install' automatico per risolvere il problema di sequenza
           bundler-cache: false 
           cache-version: 0
 
       # 2. RISOLUZIONE DEL PROBLEMA DI PIATTAFORMA
-      # Questo step modifica il Gemfile.lock in modo da supportare la piattaforma Linux
       - name: Aggiungi Piattaforma Linux al Gemfile.lock
         run: bundle lock --add-platform x86_64-linux
       
       # 3. ESEGUI L'INSTALLAZIONE MANUALE CON CACHING
-      # Questo step esegue 'bundle install' e gestisce il caching, ora che il Gemfile.lock è corretto.
-      # NOTA: Percorso cor
+      - name: Installazione e Caching delle Gemme (Bundle Install) 📦
+        uses: ruby/setup-ruby/bundler-cache 
+        
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        # Il Jekyll build genera i file statici nella directory './_site'
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
+
+      - name: Upload artifact
+        # Questo step prende il contenuto di './_site' e lo prepara per il deployment
+        uses: actions/upload-pages-artifact@v3
+        # L'azione deploy-pages cercherà un artefatto chiamato 'github-pages' dalla directory di default.
+
+  # Deployment job
+  deploy:
+    # CRUCIALE: Assicura che questo job sia eseguito solo dopo il successo del job 'build'
+    needs: build
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        # Questa azione scarica l'artefatto 'github-pages' e lo deploya
+        uses: actions/deploy-pages@v4
