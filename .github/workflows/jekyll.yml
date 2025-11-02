@@ -35,21 +35,24 @@ jobs:
         uses: actions/checkout@v4
 
       # 1. Setup Ruby (SOLO CONFIGURAZIONE)
+      # Usiamo la stessa versione hash che avevi prima per coerenza
       - name: Setup Ruby
         uses: ruby/setup-ruby@4a9ddd6f338a97768b8006bf671dfbad383215f4 
         with:
           ruby-version: '3.1'
-          # Disabilita il 'bundle install' automatico per risolvere il problema di sequenza
+          # CRUCIALE: Disabilita l'installazione automatica che falliva
           bundler-cache: false 
           cache-version: 0
 
       # 2. RISOLUZIONE DEL PROBLEMA DI PIATTAFORMA
+      # Questo step modifica il Gemfile.lock in modo da supportare la piattaforma Linux
       - name: Aggiungi Piattaforma Linux al Gemfile.lock
         run: bundle lock --add-platform x86_64-linux
       
-      # 3. ESEGUI L'INSTALLAZIONE MANUALE CON CACHING
-      - name: Installazione e Caching delle Gemme (Bundle Install)
-        uses: ruby/setup-ruby/bundler-cache 
+      # 3. INSTALLAZIONE MANUALE DELLE GEMME (SOSTITUZIONE dell'azione problematica)
+      - name: Installazione delle Gemme (Bundle Install Manuale) 📦
+        # Questo comando esegue l'installazione e userà una cache standard di GitHub se disponibile
+        run: bundle install 
         
       - name: Setup Pages
         id: pages
@@ -64,7 +67,7 @@ jobs:
       - name: Upload artifact
         # Questo step prende il contenuto di './_site' e lo prepara per il deployment
         uses: actions/upload-pages-artifact@v3
-        # L'azione deploy-pages cercherà un artefatto chiamato 'github-pages' dalla directory di default.
+        # L'artefatto caricato ha il nome di default 'github-pages'
 
   # Deployment job
   deploy:
