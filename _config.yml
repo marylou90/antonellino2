@@ -115,8 +115,8 @@ title: "Il Mio Blog Aziendale" # Nome del tuo sito
 logo: "/assets/logos/logo.svg" # Logo (dovrai aggiungere il tuo file)
 description: "Blog aziendale su vini, cantine, ristoranti e osterie." # Descrizione del sito
 url: "https://marylou90.github.io" # Il tuo URL di GitHub Pages (senza slash finale)
-baseurl: "/antonellino" # Il nome del tuo repository (necessario per GitHub Pages)
-repo: "https://github.com/marylou90/antonellino" # Il tuo repository completo
+baseurl: "/antonellino2" # Il nome del tuo repository (necessario per GitHub Pages)
+repo: "https://github.com/marylou90/antonellino2" # Il tuo repository completo
 email: "tua@email.com" # La tua email
 css_inline: true # Mantiene lo stile Alembic di inserire il CSS inline nell'HTML
 
