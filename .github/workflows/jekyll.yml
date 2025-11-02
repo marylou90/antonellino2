@@ -48,7 +48,7 @@ jobs:
         run: bundle lock --add-platform x86_64-linux
       
       # 3. ESEGUI L'INSTALLAZIONE MANUALE CON CACHING
-      - name: Installazione e Caching delle Gemme (Bundle Install) 📦
+      - name: Installazione e Caching delle Gemme (Bundle Install)
         uses: ruby/setup-ruby/bundler-cache 
         
       - name: Setup Pages
