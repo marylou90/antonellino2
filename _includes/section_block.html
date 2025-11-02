@@ -1,0 +1,24 @@
+{% comment %} 
+  Include per un blocco sezione asimmetrico. 
+  Variabili necessarie: title, text, image, link, section_class.
+{% endcomment %}
+
+<section class="section-block {{ include.section_class }}">
+  <div class="wrapper">
+    <div class="grid-container">
+      
+      <div class="grid-item content-col">
+        <h2 class="section-title">{{ include.title }}</h2>
+        <p class="section-text">{{ include.text }}</p>
+        <a href="{{ include.link | relative_url }}" class="button primary-button">Scopri di più</a>
+      </div>
+
+      <div class="grid-item media-col">
+        {% if include.image %}
+          <img src="{{ include.image | relative_url }}" alt="Immagine per {{ include.title }}"/>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>

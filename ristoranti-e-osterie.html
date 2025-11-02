@@ -1,0 +1,36 @@
+---
+layout: default
+title: Ristoranti e Osterie
+permalink: /ristoranti-e-osterie/
+---
+
+<div class="container my-5">
+    <h1>I Sapori del Territorio: Ristoranti e Osterie</h1>
+    
+    {% if site.ristoranti_e_osterie.size > 0 %}
+        
+        {% comment %} Ordina gli elementi per data, dal più recente al meno recente {% endcomment %}
+        {% assign sorted_ristoranti = site.ristoranti_e_osterie | sort: 'date' | reverse %}
+        
+        <div class="list-unstyled">
+        {% for ristorante in sorted_ristoranti %}
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title"><a href="{{ ristorante.url | relative_url }}">{{ ristorante.title | escape }}</a></h2>
+                    
+                    {% comment %} Mostra un estratto breve del contenuto {% endcomment %}
+                    <p class="card-text">{{ ristorante.excerpt | strip_html | truncatewords: 30 }}</p>
+                    
+                    {% if ristorante.date %}
+                        <small class="text-muted">Pubblicato il {{ ristorante.date | date: "%d %B, %Y" }}</small>
+                    {% endif %}
+                    <br>
+                    <a href="{{ ristorante.url | relative_url }}" class="btn btn-sm btn-outline-primary mt-2">Leggi la recensione completa</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p class="alert alert-info">Nessun ristorante o osteria è stato ancora recensito.</p>
+    {% endif %}
+</div>

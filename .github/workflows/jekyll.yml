@@ -1,0 +1,66 @@
+# Nome del tuo workflow (appare nella tab "Actions" di GitHub)
+name: Deploy Jekyll con Decap CMS (GitHub Pages)
+
+on:
+  # Trigger il deploy quando fai un push sul ramo 'main'
+  push:
+    branches: ["main"]
+  # Permette di eseguire il workflow manualmente dalla tab Actions
+  workflow_dispatch:
+
+# Permessi necessari per il deploy su GitHub Pages (necessari per deploy-pages@v4)
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  # Lavoro 1: Compilazione del sito Jekyll
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      # Setup Ruby: Usiamo 3.0 (più stabile in CI)
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          
+      # Passo per forzare la corretta installazione di bundler
+      - name: Install Bundler
+        run: gem install bundler -v 2.7.2 --no-document
+
+      # Esegui il bundle install con correzione dei permessi
+      - name: Install dependencies
+        run: |
+          bundle config set --local path vendor/bundle
+          bundle install --jobs 4 --retry 3 --clean
+
+      # Esegue il comando di compilazione di Jekyll
+      # Nota: --future è opzionale, usalo solo se hai post con data futura
+      - name: Build Jekyll Site
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+      
+      # Carica la cartella _site come artefatto che verrà pubblicato
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './_site'
+
+  # Lavoro 2: Pubblicazione su GitHub Pages
+  deploy:
+    # Dipende dal successo del lavoro 'build'
+    needs: build 
+    environment:
+      # L'ambiente 'github-pages' è richiesto dal deploy-pages action
+      name: github-pages 
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

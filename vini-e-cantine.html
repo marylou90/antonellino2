@@ -1,0 +1,36 @@
+---
+layout: default
+title: Vini e Cantine
+permalink: /vini-e-cantine/
+---
+
+<div class="container my-5">
+    <h1>Tutte le Nostre Selezione di Vini e Cantine</h1>
+    
+    {% if site.vini_e_cantine.size > 0 %}
+        
+        {% comment %} Ordina gli elementi per data, dal più recente al meno recente {% endcomment %}
+        {% assign sorted_vini = site.vini_e_cantine | sort: 'date' | reverse %}
+        
+        <div class="list-unstyled">
+        {% for vino in sorted_vini %}
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title"><a href="{{ vino.url | relative_url }}">{{ vino.title | escape }}</a></h2>
+                    
+                    {% comment %} Mostra un estratto breve del contenuto {% endcomment %}
+                    <p class="card-text">{{ vino.excerpt | strip_html | truncatewords: 30 }}</p>
+                    
+                    {% if vino.date %}
+                        <small class="text-muted">Pubblicato il {{ vino.date | date: "%d %B, %Y" }}</small>
+                    {% endif %}
+                    <br>
+                    <a href="{{ vino.url | relative_url }}" class="btn btn-sm btn-outline-primary mt-2">Leggi la scheda completa</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p class="alert alert-info">Nessuna selezione di vini e cantine è stata ancora aggiunta.</p>
+    {% endif %}
+</div>

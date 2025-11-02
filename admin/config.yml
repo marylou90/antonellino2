@@ -1,0 +1,50 @@
+# ---------------------------------------------
+# CONFIGURAZIONE BACKEND (GITHUB)
+# ---------------------------------------------
+backend:
+  name: github 
+  repo: marylou90/antonellino # Sostituisci con il tuo Owner/Repo
+  branch: main # Il tuo ramo principale
+  client_id: "Ov23lioVNFpGxkJKWrfl"
+  #base_url: https://github.com 
+  #auth_endpoint: login/oauth/authorize
+
+media_folder: "assets/uploads" # Dove verranno salvate le immagini nel tuo repository (relativo alla root del progetto)
+public_folder: "/assets/uploads" # Come verranno referenziate le immagini nel codice HTML (relativo alla root del sito)
+
+# ---------------------------------------------
+# DEFINIZIONE DELLE COLLEZIONI
+# ---------------------------------------------
+collections:
+  
+  # 1. COLLEZIONE VINI E CANTINE
+  - name: "vini_e_cantine"
+    label: "Vini e Cantine"
+    # Questa cartella deve esistere nel tuo repository!
+    folder: "_vini_e_cantine" 
+    create: true
+    slug: "{{slug}}" # Usa solo il nome pulito nel file (senza data)
+    fields:
+      - {label: "Titolo", name: "title", widget: "string", required: true}
+      - {label: "Data di Pubblicazione", name: "date", widget: "datetime"}
+      - {label: "Immagine in Evidenza", name: "image", widget: "image", required: false, hint: "Immagine principale per la sezione"}
+      - {label: "Contenuto", name: "body", widget: "markdown"}
+      
+  # 2. COLLEZIONE RISTORANTI E OSTERIE
+  - name: "ristoranti_e_osterie"
+    label: "Ristoranti e Osterie"
+    # Questa cartella deve esistere nel tuo repository!
+    folder: "_ristoranti_e_osterie"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Titolo", name: "title", widget: "string", required: true}
+      - {label: "Data di Pubblicazione", name: "date", widget: "datetime"}
+      - {label: "Immagine in Evidenza", name: "image", widget: "image", required: false, hint: "Immagine principale per la sezione"}
+      - {label: "Contenuto", name: "body", widget: "markdown"}
+      
+  # (Se avevi una collezione 'posts' precedente, la puoi aggiungere qui sotto)
+  # - name: "posts"
+  #   label: "Articoli Generali"
+  #   folder: "_posts"
+  #   ... (campi) ...

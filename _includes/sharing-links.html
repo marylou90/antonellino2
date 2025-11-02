@@ -1,0 +1,39 @@
+{% comment %} 
+  File: _includes/sharing-links.html
+  Fornisce i pulsanti di condivisione per i post.
+{% endcomment %}
+
+<div class="share-links">
+  <p>Condividi questo articolo:</p>
+  
+  {% assign current_url = site.url | append: page.url %}
+
+  <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ current_url | url_encode }}&via={{ site.twitter_username }}" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     aria-label="Condividi su Twitter"
+     class="share-button twitter">
+    Twitter
+  </a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u={{ current_url | url_encode }}" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     aria-label="Condividi su Facebook"
+     class="share-button facebook">
+    Facebook
+  </a>
+  
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ current_url | url_encode }}&title={{ page.title | url_encode }}&summary={{ page.excerpt | url_encode }}" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     aria-label="Condividi su LinkedIn"
+     class="share-button linkedin">
+    LinkedIn
+  </a>
+  
+  {% comment %}
+    NOTA: Per far apparire bene questi pulsanti,
+    potrebbe essere necessario aggiungere del CSS specifico per la classe .share-links nel tuo file SCSS.
+  {% endcomment %}
+</div>

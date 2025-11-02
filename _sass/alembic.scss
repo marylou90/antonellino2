@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+// Import frameworks & theme styles
+@import
+  "normalize",
+  "settings",
+  "sassline-base",
+  "syntax",
+  "flex",
+  "theme"
+;
+
+
+/* -------------------------------------------
+   STILI PER BLOCCHI ASIMMETRICI HOME PAGE
+   ------------------------------------------- */
+
+.section-block {
+    padding: 60px 0; /* Spazio verticale tra le sezioni */
+}
+
+.grid-container {
+    display: flex;
+    align-items: center; /* Allinea verticalmente gli elementi */
+    gap: 40px; /* Spazio tra testo e immagine */
+}
+
+.grid-item {
+    flex: 1 1 50%; /* Di default, 50/50 */
+}
+
+.content-col {
+    order: 1; /* Il testo appare prima di default */
+}
+
+.media-col {
+    order: 2; /* L'immagine appare dopo di default */
+}
+
+.section-block img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px; /* Opzionale: bordi arrotondati */
+}
+
+/* Layout Inverso (Usato per Ristoranti e Osterie) */
+.inverse-layout .content-col {
+    order: 2; /* Sposta il testo a destra */
+}
+
+.inverse-layout .media-col {
+    order: 1; /* Sposta l'immagine a sinistra */
+}
+
+/* Stili di Sfondo (Da adattare ai colori di Alembic) */
+.bg-light-grey {
+    background-color: #f7f7f7;
+}
+.bg-dark-contrast {
+    background-color: #333;
+    color: white;
+}
+.bg-dark-contrast .section-title, .bg-dark-contrast .section-text {
+    color: white;
+}

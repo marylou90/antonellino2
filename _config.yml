@@ -1,0 +1,147 @@
+# -----------------------------------------------------------
+# Configurazione unificata per JEKILL, GITHUB PAGES e DECAP CMS
+# -----------------------------------------------------------
+
+# 1. Files excluded from Jekyll builds
+exclude:
+  - README.md
+  - CODE_OF_CONDUCT.md
+  - CONTRIBUTING.md
+  - screenshot.png
+  - LICENSE
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - alembic-jekyll-theme.gemspec
+  - .jekyll-cache
+  # Escludiamo le cartelle di Decap CMS dalla compilazione del sito finale
+include:
+  - admin/
+  - auth/
+
+# 2. Installed Gems (Modificato per Jekyll 4.3 e per risolvere conflitti CI)
+plugins:
+  - jekyll-sitemap
+  - jekyll-mentions
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-redirect-from
+  - jekyll-feed
+  - jekyll-commonmark
+  - jekyll-include-cache
+  - jemoji
+
+# 3. Gem settings
+paginate: 5 # jekyll-paginate > items per page (Aumentato leggermente)
+paginate_path: blog/page:num # jekyll-paginate > blog page
+# Rimosse le impostazioni specifiche dell'autore DavidDarnes e sostituite con segnaposto
+twitter:
+  username: marylou90 # Il tuo username Twitter (da cambiare)
+author: Mary Lou # Il tuo nome
+social: # I tuoi link social
+  name: Mary Lou Blog
+  links:
+    - https://github.com/marylou90
+
+# 4. Jekyll settings
+sass:
+  style: compressed # Stile di compressione
+permalink: /:collection/:title/ # Permalink più pulito e coerente con le collezioni
+excerpt_separator: # Marks end of excerpt in posts
+timezone: Europe/Rome # Impostato sul fuso orario italiano
+jekyll: ~> 4.3 # Versione di Jekyll che supporta Ruby 3.2
+
+# 5. Collezioni Personalizzate (DECAP CMS)
+collections:
+  # La collezione standard dei post è ancora qui
+  posts:
+    title: Articoli Generali
+    output: true
+    description: "Articoli di blog non categorizzati"
+    feature_text: |
+      Archivio Blog
+    feature_image: "https://picsum.photos/2560/600?image=866"
+
+  # NUOVE COLLEZIONI PER LA HOME PAGE E DECAP CMS
+  vini_e_cantine:
+    title: Vini e Cantine
+    output: true
+    permalink: /vini/:title/
+    description: "Post dedicati a Vini e Cantine"
+  ristoranti_e_osterie:
+    title: Ristoranti e Osterie
+    output: true
+    permalink: /ristoranti/:title/
+    description: "Post dedicati a Ristoranti e Osterie"
+
+# 6. Jekyll collections settings
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      image: "/assets/default-social-image.png" # Immagine social predefinita
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post # Layout predefinito per i post
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: page # Layout predefinito per le pagine
+  # Aggiungiamo i layout predefiniti per le nuove collezioni
+  -
+    scope:
+      path: ""
+      type: "vini_e_cantine"
+    values:
+      layout: post # Useremo il layout 'post' anche per questa collezione
+  -
+    scope:
+      path: ""
+      type: "ristoranti_e_osterie"
+    values:
+      layout: post # Useremo il layout 'post' anche per questa collezione
+
+
+# 7. Site settings
+encoding: utf-8
+lang: it-IT # Impostato sulla lingua italiana
+title: "Il Mio Blog Aziendale" # Nome del tuo sito
+logo: "/assets/logos/logo.svg" # Logo (dovrai aggiungere il tuo file)
+description: "Blog aziendale su vini, cantine, ristoranti e osterie." # Descrizione del sito
+url: "https://marylou90.github.io" # Il tuo URL di GitHub Pages (senza slash finale)
+baseurl: "/antonellino" # Il nome del tuo repository (necessario per GitHub Pages)
+repo: "https://github.com/marylou90/antonellino" # Il tuo repository completo
+email: "tua@email.com" # La tua email
+css_inline: true # Mantiene lo stile Alembic di inserire il CSS inline nell'HTML
+
+# 8. Site favicons & manifest icons (Lasciato come in Alembic, aggiungi i tuoi file logo)
+favicons:
+  16: '/assets/logos/logo@16px.png'
+  32: '/assets/logos/logo@32px.png'
+  96: '/assets/logos/logo@96px.png'
+  120: '/assets/logos/logo@120px.png'
+  144: '/assets/logos/logo@144px.png'
+  180: '/assets/logos/logo@180px.png'
+  512: '/assets/logos/logo@512px.png'
+  1024: '/assets/logos/logo@1024px.png'
+
+# 9. Site navigation (Adatta i link alla tua struttura)
+navigation_header:
+  - title: Home
+    url: /
+  - title: Vini & Cantine
+    url: /vini-e-cantine/ # Pagina Indice Vini (da creare)
+  - title: Ristoranti & Osterie
+    url: /ristoranti-e-osterie/ # Pagina Indice Ristoranti (da creare)
+  - title: Contatti
+    url: /contatti/
+
+navigation_footer:
+  - title: Creato con Jekyll e Alembic
+    url: https://jekyllrb.com/

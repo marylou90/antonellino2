@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script>
+        (function() {
+            if (window.opener) {
+                // Invia i dati di reindirizzamento alla finestra Decap CMS principale
+                window.opener.postMessage(
+                    {
+                        'type': 'authorize',
+                        'data': {
+                            'url': window.location.href
+                        }
+                    },
+                    window.location.protocol + '//' + window.location.host
+                );
+                // Chiude la finestra di login
+                window.close();
+            }
+        })();
+    </script>
+</head>
+<body>
+    <p>Please wait, redirecting...</p>
+</body>
+</html>
